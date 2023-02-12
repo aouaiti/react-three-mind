@@ -27,14 +27,14 @@ function Shape({ container }) {
     init()
       .then(async (data) => {
         // console.log(data);
-        const { camera } = data;
+        const { camera, scene } = data;
         // console.log(renderer, scene, camera);
         const anchor = data.addAnchor(0);
         anchor.group.add(group.current);
         await data.start();
         // console.log(scene);
         renderer.setAnimationLoop(() => {
-          renderer.render(three.scene, camera);
+          renderer.render(scene, camera);
         });
       })
       .catch((err) => console.log(err));
