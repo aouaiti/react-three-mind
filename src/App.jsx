@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import reactLogo from "./assets/react.svg";
-import "./App.css";
 import * as THREE from "three";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
 
@@ -50,7 +49,9 @@ function App() {
 
   const [count, setCount] = useState(0);
 
-  return <div ref={container} className='App'></div>;
+  return (
+    <div style={{ width: "100vw", height: "100vh" }} ref={container}></div>
+  );
 }
 
 export default App;
