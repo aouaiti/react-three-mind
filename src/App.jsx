@@ -21,6 +21,18 @@ function App() {
   }
 
   useEffect(() => {
+    (function () {
+      var s = document.createElement("script");
+      s.src = "https://remotejs.com/agent/agent.js";
+      s.setAttribute(
+        "data-consolejs-channel",
+        "926606f4-8635-10b3-1582-c8a579d09065"
+      );
+      document.head.appendChild(s);
+    })();
+  }, []);
+
+  useEffect(() => {
     if (!container) return;
     init()
       .then(async (data) => {
