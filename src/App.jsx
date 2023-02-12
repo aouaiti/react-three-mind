@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import reactLogo from "./assets/react.svg";
 import * as THREE from "three";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
+import { Canvas } from "@react-three/fiber";
 
 function App() {
   const container = useRef(null);
@@ -39,6 +40,15 @@ function App() {
         console.log(data);
         const { renderer, scene, camera } = data;
         console.log(renderer, scene, camera);
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({
+          color: 0x0000ff,
+          transparent: true,
+          opacity: 0.7,
+        });
+        const plane = new THREE.Mesh(geometry, material);
+        const anchor = data.addAnchor(0);
+        anchor.group.add(plane);
         await data.start();
         renderer.setAnimationLoop(() => {
           renderer.render(scene, camera);
@@ -50,7 +60,14 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div style={{ width: "100vw", height: "100vh" }} ref={container}></div>
+    <div style={{ width: "100vw", height: "100vh" }} ref={container}>
+      {/* <Canvas>
+        <mesh>
+          <boxGeometry />
+          <meshStandardMaterial />
+        </mesh>
+      </Canvas> */}
+    </div>
   );
 }
 
