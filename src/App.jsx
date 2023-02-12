@@ -2,11 +2,23 @@ import { useState, useEffect, useRef } from "react";
 import reactLogo from "./assets/react.svg";
 import * as THREE from "three";
 import { MindARThree } from "mind-ar/dist/mindar-image-three.prod.js";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
+
+function Shape({ getScene }) {
+  const three = useThree();
+  getScene(three);
+  return (
+    <mesh>
+      <boxGeometry />
+      <meshStandardMaterial />
+    </mesh>
+  );
+}
 
 function App() {
   const container = useRef(null);
   const [ar, setAr] = useState(null);
+  const [scene, setScene] = useState(null);
 
   async function init() {
     return new Promise((resolve, reject) => {
@@ -19,6 +31,10 @@ function App() {
       );
     });
   }
+
+  const getScene = (prop) => {
+    setScene(prop.scene);
+  };
 
   useEffect(() => {
     (function () {
@@ -34,12 +50,13 @@ function App() {
 
   useEffect(() => {
     if (!container) return;
+    console.log(scene);
     init()
       .then(async (data) => {
         setAr(data);
-        console.log(data);
-        const { renderer, scene, camera } = data;
-        console.log(renderer, scene, camera);
+        // console.log(data);
+        const { renderer, camera } = data;
+        // console.log(renderer, scene, camera);
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         const material = new THREE.MeshBasicMaterial({
           color: 0x0000ff,
@@ -50,6 +67,7 @@ function App() {
         const anchor = data.addAnchor(0);
         anchor.group.add(plane);
         await data.start();
+        console.log(scene);
         renderer.setAnimationLoop(() => {
           renderer.render(scene, camera);
         });
@@ -57,16 +75,11 @@ function App() {
       .catch((err) => console.log(err));
   }, [container]);
 
-  const [count, setCount] = useState(0);
-
   return (
     <div style={{ width: "100vw", height: "100vh" }} ref={container}>
-      {/* <Canvas>
-        <mesh>
-          <boxGeometry />
-          <meshStandardMaterial />
-        </mesh>
-      </Canvas> */}
+      <Canvas>
+        <Shape getScene={getScene} />
+      </Canvas>
     </div>
   );
 }
