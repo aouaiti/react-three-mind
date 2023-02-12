@@ -52,6 +52,7 @@ function App() {
         await data.start();
         renderer.setAnimationLoop(() => {
           renderer.render(scene, camera);
+          console.log(plane);
         });
       })
       .catch((err) => console.log(err));
