@@ -41,6 +41,9 @@ function App() {
         const { renderer, scene, camera } = data;
         console.log(renderer, scene, camera);
         await data.start();
+        renderer.setAnimationLoop(() => {
+          renderer.render(scene, camera);
+        });
       })
       .catch((err) => console.log(err));
   }, [container]);
