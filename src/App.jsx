@@ -52,6 +52,8 @@ function App() {
         await data.start();
         renderer.setAnimationLoop(() => {
           renderer.render(scene, camera);
+        });
+        Window.requestAnimationFrame(() => {
           console.log(plane);
         });
       })
